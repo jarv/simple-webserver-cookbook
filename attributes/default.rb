@@ -1,2 +1,8 @@
+
 default[:webserver][:index_path] = "/var/www/index.html"
-default[:webserver][:web_user] = "www-data"
+case node[:platform]
+when "ubuntu", "debian"
+  default[:webserver][:web_user] = "www-data"
+when "centos", "redhat", "amazon"
+  default[:webserver][:web_user] = "nginx"
+end
