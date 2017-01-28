@@ -60,6 +60,17 @@ directory "#{File.dirname(node[:webserver][:index_path])}" do
   group node[:webserver][:web_user]
 end
 
+case node[:platform]
+when "centos", "redhat", "amazon"
+  cookbook_file "/etc/nginx/nginx.conf" do
+    owner "root"
+    group "root"
+    source "nginx.conf"
+    mode "0644"
+    notifies :restart, 'service[nginx]', :delayed
+  end
+end
+
 cookbook_file node[:webserver][:index_path] do
   owner node[:webserver][:web_user]
   group node[:webserver][:web_user]
