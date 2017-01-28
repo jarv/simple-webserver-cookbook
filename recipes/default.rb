@@ -41,6 +41,17 @@ when "ubuntu", "debian"
     to '/etc/nginx/sites-available/webserver'
     notifies :restart, 'service[nginx]', :delayed
   end
+when "centos", "redhat", "amazon"
+  template '/etc/nginx/conf.d/webserver' do
+    source 'webserver.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+    notifies :restart, 'service[nginx]', :delayed
+    variables({
+      www_root: "#{File.dirname(node[:webserver][:index_path])}"
+    })
+  end
 end
 
 
