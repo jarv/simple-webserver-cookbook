@@ -42,7 +42,7 @@ when "ubuntu", "debian"
     notifies :restart, 'service[nginx]', :delayed
   end
 when "centos", "redhat", "amazon"
-  template '/etc/nginx/conf.d/webserver' do
+  template '/etc/nginx/conf.d/webserver.conf' do
     source 'webserver.erb'
     owner 'root'
     group 'root'
